@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Login and Registration</title>
+    <link href="/static/poll_forum/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/static/poll_forum/css/style.css" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        <div class="container">
+            <div class="navbar">
+                <h1 id="navLogo">Poll Forum</h1>
+            </div>
+        <div class="row">
+            <div class="col-md-6">
+                <fieldset>        
+                    <legend>Registration Form</legend>
+                    <form action="/register" method="POST">
+                        {% csrf_token %}
+                        <div class="form-group">
+                            <label for="first_name">First Name: </label>
+                            <input type="text" class="form-control" id="first_name" name="first_name" placeholder="First Name">
+                        </div>
+                        <div class="form-group">
+                            <label for="last_name">Last Name: </label>
+                            <input type="text" class="form-control" id="last_name" name="last_name" placeholder="Last Name">
+                        </div>
+                        <div class="form-group">
+                            <label for="email">Email: </label>
+                            <input type="text" class="form-control" id="email"name="email" placeholder="Email">
+                        </div>
+                        <div class="form-group">
+                            <label for="password">Password: </label>
+                            <input type="password" class="form-control" id="password" name="password"placeholder="Password">
+                        </div>
+                        <div class="form-group">
+                            <label for="confirm_password">Confirm Password: </label>
+                            <input type="password" class="form-control" id="confirm_password" name="confirm_password" placeholder="Password">
+                        </div>
+                            <button type="submit" class="btn btn-info">Register</button>
+                    </form>
+                    {% if messages %}
+                        {% for message in messages %}
+                            {% if "error" in message.tags %}
+                            <ul>
+                                <li class="error">{{message}}</li>
+                            </ul>
+                            {% endif %}
+                        {% endfor %}
+                    {% endif %}
+            </fieldset>
+            </div>
+            <div class="col-md-6">
+                <fieldset>
+                    <legend>Login</legend>
+                    <form action="/login" method="POST">
+                        {% csrf_token %}
+                        <div class="form-group">
+                            <label for="email">Email: </label>
+                            <input type="text" class="form-control"  name="email" placeholder="Email">
+                        </div>
+                        <div class="form-group">
+                            <label for="password">Password: </label>
+                            <input type="password" class="form-control" id="password" name="password" placeholder="Password">
+                        </div>
+                            <button type="submit" class="btn btn-info">Login</button>
+                    </form>
+                    {% if messages %}
+                        {% for message in messages %}
+                            {% if "warning" in message.tags %}
+                            <ul>
+                                <li class="error">{{message}}</li>
+                            </ul>
+                            {% endif %}
+                        {% endfor %}
+                    {% endif %}
+                </fieldset>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

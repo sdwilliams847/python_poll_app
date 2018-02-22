@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Poll Forum</title>
+
+    <!-- <link href="/static/poll_forum/script/bootstrap.min.js" rel="text/javascript"> -->
+    <link href="/static/poll_forum/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/static/poll_forum/css/style.css" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        <div class="navbar">
+            <h1 id="navLogo">Poll Forum</h1>
+            <div id="navigationLinks">
+                <a class="navL" href="/create_poll"><button class="btn btn-info">Create Poll</button></a>
+                <!-- <a class="navL" href="#"><button>My Polls</button></a> -->
+                <a class="navL" href="/logout"><button class="btn btn-info">Logout</button></a>
+            </div>
+        </div><br>
+        
+        {% for qs in question%}
+        <div class="row">
+            <div class="col-md-2">
+            </div>
+            <div class="col-md-7">
+                <form action="/process/{{qs.id}}" method="POST">
+                    {% csrf_token %}
+                    <label for="dojo_location"><h4>{{ qs.content }}</h4></label>    
+                        {% for op in qs.options.all %}
+                    <div class="form-check">
+                        <input type="hidden" value="option_id" name="{{op.id}}">
+                        <input class="form-check-input" type="radio" name="ThisTheAnswer" value="{{op.id}}">
+                        <label class="form-check-label" for="answer">
+                            {{ op.option }}
+                        </label>
+                    </div>
+                        {% endfor %}    
+                    <br><i>Posted by: {{qs.createdBy.first_name}} {{qs.createdBy.last_name}}</i>
+                    <button type="submit" class="btn btn-info float-right">Submit Answer</button>
+                </form>
+            </div> <br>
+            <div class="col-md-3">
+            </div>
+        </div><br>
+        {% endfor %}
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.4.0/Chart.min.js"></script>
+        {% if userQs %}
+        {% for Q in userQs %}
+
+
+
+        <div class="row">
+        <div class="col-md-3">
+            </div>
+            <div class="col-md-6">
+                <h4>{{Q.content}}</h4>
+                <canvas id="pieChart{{Q.id}}" width="300" height="300"></canvas>
+                
+                
+                <script>
+                var CHART = document.getElementById("pieChart{{Q.id}}");
+                console.log(CHART);
+                let lineChart{{Q.id}} = new Chart(CHART, {
+                    type: 'pie',
+                    data: {
+                        labels: ["{{Q.optionNames.0}}", "{{Q.optionNames.1}}", "{{Q.optionNames.2}}", "{{Q.optionNames.3}}",],
+                        datasets: [
+                            {
+                                label: 'Points',
+                                backgroundColor: ['#2980b9','#f1c40f','#e67e22','#16a085'],
+                                data: [{{Q.option1}}, {{Q.option2}}, {{Q.option3}},{{Q.option4}},],
+                            }
+                        ]
+                    },
+                    options: {
+                        animation: {
+                            animateScale: true
+                        }
+                    }
+                
+                });
+                </script> 
+                </div>
+                <div class="col-md-3">
+                </div>
+            </div><br>
+            {% endfor %}
+ 
+            {% endif %}
+    </div>   
+</body>
+</html>

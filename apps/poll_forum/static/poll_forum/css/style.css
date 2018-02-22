@@ -1,0 +1,33 @@
+* {
+    margin: 0;
+    padding: 0;
+
+}
+
+.error {
+    color: red;
+}
+
+.success {
+    color: green;
+}
+
+#navigationLinks {
+    display: inline;
+}
+
+.navL {
+    margin: 2px;
+}
+
+#navLogo {
+    color: #138496 !important;
+}
+
+body {
+    background-color: rgb(192, 189, 189); 
+}
+
+.container {
+    background-color: rgb(192, 189, 189);
+}
